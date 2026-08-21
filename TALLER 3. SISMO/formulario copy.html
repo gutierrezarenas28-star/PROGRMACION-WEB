@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Formulario</title>
+    <link rel='stylesheet' href='main.css'>
+</head>
+<body>
+    
+    <form>
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input 
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Ingrese su nombre"
+                required minlength="3" maxlength="60"
+                />
+            </div>
+            <div>
+                <label for="Num Documento">Número de Documento:</label>
+                <input 
+                type="text"
+                id="Num Documento"
+                name="Num Documento"
+                placeholder="Ingrese su número de documento"
+                required pattern="[0-9]{6,10}"
+                />
+            </div>
+            <div>
+                <label for="correo">Correo Electrónico:</label>
+                <input 
+                type="email"
+                id="correo"
+                name="correo"
+                placeholder="Ingrese su correo electrónico"
+                required
+                />
+            </div>
+            <div>
+                <label for="telefono">Teléfono:</label>
+                <input 
+                type="tel"
+                id="telefono"
+                name="telefono"
+                placeholder="Ingrese su número de teléfono"
+                required pattern="3[0-9]{9}"
+                />
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Ubicación de la afectación</legend>
+            <div>
+                <label for="departamento">Departamento:</label>
+                <select id="departamento" name="departamento" required>
+                    <option value="" disabled selected>Seleccione un departamento</option>
+                    <optgroup label="Región Caribe">
+                        <option value="Cesar">Cesar</option>
+                        <option value="atlantico">Atlántico</option>
+                        <option value="bolivar">Bolívar</option>
+                    </optgroup>
+
+                    <optgroup label="Región Andina">
+                        <option value="cundinamarca">Cundinamarca</option>
+                        <option value="antioquia">Antioquia</option>
+                        <option value="santander">Santander</option>
+                    </optgroup>
+
+                    <optgroup label="Región Pacífica">
+                        <option value="valle">Valle del Cauca</option>
+                        <option value="choco">Chocó</option>
+                        <option value="nariño">Nariño</option>
+                    </optgroup>
+
+                    <optgroup label="Región Orinoquía">
+                        <option value="vaupes">Vaupés</option>
+                        <option value="amazonas">Amazonas</option>
+                        <option value="guainia">Guainía</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div>
+                <label for="municipio">Municipio:</label>
+                <input 
+                type="text"
+                id="municipio"
+                name="municipio"
+                list="municipios" />
+
+                <datalist id="municipios">
+                    <option value="Aguachica">
+                    <option value="Valledupar">
+                    <option value="Codazzi">
+                    <option value="Bosconia">
+                    <option value="Chimichagua">
+                </datalist>
+            </div>
+
+            <div>
+                <label for="direccion">Dirección:</label>
+                <input 
+                type="text"
+                id="direccion"
+                name="direccion"
+                required maxlength="120"
+                />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Información del sismo y afectación</legend>
+            <div>
+                <label for="fecha-hora">Fecha y hora del sismo:</label>
+                <input 
+                type="datetime-local"
+                id="fecha-hora"
+                name="fecha-hora"
+                required
+                />
+            </div>
+
+            <div>
+                <label for="intensidad">Intensidad del sismo:</label>
+                <input 
+                type="range"
+                id="intensidad"
+                name="intensidad"
+                required
+                min="1"
+                max="12"
+                step="1"
+                />
+            </div>
+
+            <div>
+                <label>Tipo de afectación:</label>
+                <div>
+                    <input 
+                    type="checkbox"
+                    id="grietas"
+                    name="afectacion"
+                    value="grietas">
+                    <label for="grietas">Grietas</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="caida de muros"
+                    name="afectacion"
+                    value="caida de muros">
+                    <label for="caida de muros">Caida de muros</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="servicios publicos" 
+                    name="afectacion"
+                    value="servicios publicos">
+                    <label for="servicios publicos">Servicios públicos</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="vias"
+                    name="afectacion"
+                    value="vias">
+                    <label for="vias">Vías</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="ninguna"
+                    name="afectacion"
+                    value="ninguna">
+                    <label for="ninguna">Ninguna</label>
+                </div>
+            </div>
+
+            <div>
+                <label for="personas">Personas afectadas:</label>
+                <input
+                    type="number"
+                    id="personas"
+                    name="personas"
+                    min="0"
+                    required
+                />
+            </div>
+
+            <div>
+                <label>Nivel de atención requerido:</label>
+                <div>
+                    <input
+                     type="radio"
+                     id="bajo"
+                     name="nivel-atencion"
+                     value="bajo">
+                    <label for="bajo">Bajo</label>
+                </div>
+                <div>
+                    <input
+                     type="radio"
+                     id="medio"
+                     name="nivel-atencion"
+                     value="medio">
+                    <label for="medio">Medio</label>
+                </div>
+                <div>
+                    <input
+                     type="radio"
+                     id="alto"
+                     name="nivel-atencion"
+                     value="alto">
+                    <label for="alto">Alto</label>
+                </div>
+            </div>
+
+            <div>
+                <label for="descripcion">Descripción del daño:</label>
+                <textarea
+                    id="descripcion"
+                    name="descripcion"
+                    rows="4"
+                    cols="50"
+                    placeholder="Describa los daños ocasionados por el sismo"
+                    required maxlength="500"
+                ></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Evidencia y autorización</legend>
+            <div>
+                <label for="evidencia">Evidencia fotográfica:</label>
+                <input 
+                type="file"
+                id="evidencia"
+                name="evidencia"
+                accept="image/*"    />
+            </div>
+
+            <div>
+                <input 
+                type="checkbox"
+                id="autorizacion"
+                name="autorizacion"
+                required>
+                <label for="autorizacion">Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012.</label>
+            </div>
+
+            <div>
+                <label for="contacto">Medio de contacto preferido:</label>
+                <select id="contacto" name="contacto" >
+                    <option value="correo">Correo electrónico</option>
+                    <option value="telefono">Teléfono</option>
+                </select>
+            </div>
+        </fieldset>
+    </form> 
+</html>
