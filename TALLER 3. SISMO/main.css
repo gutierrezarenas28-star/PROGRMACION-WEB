@@ -1,115 +1,125 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    
+/* ============================================
+   CSS básico para el formulario de sismo
+   ============================================ */
+
+/* Esto hace que padding y border no aumenten el ancho total
+   de un elemento. Es una buena costumbre ponerlo siempre. */
+* {
+  box-sizing: border-box;
 }
-body{
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f7fb;
-    color: #17233c;
-    padding: 30px 15px;
+
+/* Estilos generales de la página */
+body {
+  margin: 0;
+  padding: 30px 15px;
+  background-color: #919797; /* un gris verdoso muy claro */
+  font-family: Arial, Helvetica, sans-serif;
+  color: #222;
 }
-.encabezado{
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background-color: #0b1e36;
-    color: #ffffff;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+/* El formulario como una "tarjeta" centrada */
+.formulario {
+  max-width: 600px;
+  margin: 0 auto; /* esto lo centra horizontalmente */
+  background-color: #ffffff;
+  border: 1px solid #f0e9e9;
+  border-radius: 8px;
+  padding: 25px;
 }
-.formulario__titulo{
-    max-width: 700px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+
+/* Cada sección (fieldset) */
+.formulario__grupo {
+  border: none;
+  border-top: 3px solid #c41b1b; /* verde institucional, como acento */
+  padding: 15px 0 0 0;
+  margin-bottom: 25px;
 }
-.formulario__grupo{
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 25px;
-    background-color: #fafbfc;
+
+/* Título de cada sección */
+.formulario__titulo {
+  font-size: 20px;
+  color: #000000;
+  margin-bottom: 15px;
 }
-.formulario__titulo legend{
-    font-size: 1.1rem;
-    padding: 0 10px;
-    font-weight: bold;
-    color: #0b1e36;
+
+/* Cada bloque de campo (label + input) */
+.campo {
+  margin-bottom: 15px;
 }
-.campo{
-    margin-bottom: 18px;
-    display: flex;
-    flex-direction: column;
+
+/* Las etiquetas (Nombre, Correo, etc.) */
+.campo__label {
+  display: block; /* así queda arriba del input, no al lado */
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
 }
-.campo__label{
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    color: #334155;
+
+/* Todos los inputs de texto, email, número, fecha, select y textarea */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="datetime-local"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 15px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif;
 }
-.campo__input, .campo__select, .campo__textarea{
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.2s;
+
+/* Cuando el usuario hace click en un input (:focus) */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2b4c3f;
+  outline: none;
 }
-.campo__input:focus,
-.campo__select:focus,
-.campo__textarea:focus {
-    border-color: #0077b6;
-    box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15);
+
+textarea {
+  resize: vertical; /* solo deja cambiar el alto, no el ancho */
 }
-.campo__opciones {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 5px;
+
+/* Checkboxes y radios: los dejamos con su tamaño normal
+   del navegador, pero les damos algo de espacio */
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 8px;
 }
-.campo__opciones--inline {
-    flex-direction: row;
-    gap: 20px;
-}
+
+/* Contenedor de cada opción de checkbox/radio, para que
+   el texto y el cuadrito queden alineados */
 .opcion {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.95rem;
-    cursor: pointer;
+  margin-bottom: 8px;
 }
 
-.opcion input[type="checkbox"],
-.opcion input[type="radio"] {
-    accent-color: #0077b6;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-.formulario__acciones {
-    text-align: center;
-    margin-top: 10px;
+/* El slider de intensidad */
+input[type="range"] {
+  width: 100%;
 }
 
+/* El botón de enviar */
 .boton-enviar {
-    background-color: #0b1e36;
-    color: #ffffff;
-    border: none;
-    padding: 12px 35px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  background-color: #2366e0;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer; /* así se ve la manita al pasar el mouse */
 }
 
+/* Efecto simple al pasar el mouse sobre el botón */
 .boton-enviar:hover {
-    background-color: #0077b6;
+  background-color: #117bcc;
+}
+
+/* Contenedor del botón, para alinearlo a la derecha */
+.formulario__acciones {
+  text-align: right;
+  margin-top: 20px;
 }
