@@ -1,5 +1,344 @@
-p {
-    color: aqua;
-    background-color: blueviolet;
-    width: 20;
+/* =======================================================
+   1. VARIABLES (custom properties)
+   Definirlas una vez en :root te permite reusar colores
+   y medidas en todo el archivo, y cambiarlas en un solo
+   lugar si más adelante quieres otro estilo.
+======================================================= */
+:root {
+  --bg: #0d1117;          /* fondo general, oscuro como el papel de un sismógrafo */
+  --bg-alt: #12161f;      /* fondo alterno para separar secciones */
+  --texto: #e6e8eb;       /* texto principal, casi blanco */
+  --texto-suave: #9aa3af; /* texto secundario, gris */
+  --linea: #232936;       /* bordes y divisores sutiles */
+
+  --acento: #ff8a3d;      /* naranja principal: la "aguja" del sismógrafo */
+  --acento-suave: #ffb573;
+
+  --verde: #4ade80;
+  --amarillo: #facc15;
+  --naranja: #fb923c;
+  --rojo: #f87171;
+
+  --fuente-titulo: "Space Grotesk", sans-serif;
+  --fuente-datos: "JetBrains Mono", monospace;
+
+  --radio: 10px;
+}
+
+/* =======================================================
+   2. RESET BÁSICO
+   Quitamos márgenes por defecto del navegador y forzamos
+   box-sizing: border-box para que padding y border no
+   se sumen al ancho que tú defines (mucho más predecible).
+======================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--texto);
+  font-family: var(--fuente-datos);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--acento);
+}
+
+/* =======================================================
+   3. TOPBAR
+   Flexbox es ideal cuando quieres alinear elementos en
+   una fila (o columna) y distribuir el espacio entre ellos.
+======================================================= */
+.topbar {
+  display: flex;
+  justify-content: space-between; /* logo a la izq, nav a la der */
+  align-items: center;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--linea);
+}
+
+.topbar__brand {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--acento);
+  box-shadow: 0 0 0 4px rgba(255, 138, 61, 0.15); /* halo suave */
+}
+
+.topbar__nav {
+  display: flex;
+  gap: 24px;
+}
+
+.topbar__nav a {
+  text-decoration: none;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  transition: color 0.2s ease; /* transición suave al pasar el mouse */
+}
+
+.topbar__nav a:hover {
+  color: var(--texto);
+}
+
+/* =======================================================
+   4. HERO
+   position: relative + absolute nos permite poner la onda
+   sísmica "detrás" del contenido, superpuesta.
+======================================================= */
+.hero {
+  position: relative;
+  padding: 64px 32px 80px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--linea);
+}
+
+.hero__wave {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+}
+
+.hero__wave svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__wave-path {
+  fill: none;
+  stroke: var(--acento);
+  stroke-width: 2;
+  /* Esta animación "dibuja" la línea sin parar, dando la
+     sensación de una lectura sísmica en vivo. */
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: dibujar 4s ease-in-out infinite alternate;
+}
+
+@keyframes dibujar {
+  to { stroke-dashoffset: 0; }
+}
+
+.hero__content {
+  position: relative; /* para quedar por encima de la onda */
+  max-width: 640px;
+}
+
+.hero__eyebrow {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.hero__mag {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(3rem, 8vw, 5.5rem); /* tamaño fluido según el ancho de pantalla */
+  color: var(--acento);
+  line-height: 1;
+}
+
+.hero__place {
+  font-family: var(--fuente-titulo);
+  font-size: 1.3rem;
+  margin-top: 12px;
+}
+
+.hero__meta {
+  color: var(--texto-suave);
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+/* =======================================================
+   5. SECCIONES GENERALES
+======================================================= */
+.section {
+  padding: 56px 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section--alt {
+  background: var(--bg-alt);
+  max-width: 100%;
+}
+
+.section--alt > * {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section__title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
+.section__note {
+  font-family: var(--fuente-datos);
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  font-weight: 400;
+}
+
+.prose {
+  color: var(--texto-suave);
+  max-width: 65ch; /* ancho ideal de lectura: ~65 caracteres por línea */
+}
+
+/* =======================================================
+   6. TARJETAS DE SISMOS
+   Flexbox en columna para la lista, y dentro de cada
+   tarjeta, flexbox en fila para alinear magnitud + info.
+======================================================= */
+.quake-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quake-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 18px 20px;
+  border-left: 4px solid var(--linea); /* se sobreescribe abajo por severidad */
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.quake-card:hover {
+  transform: translateX(4px); /* pequeño desplazamiento al pasar el mouse */
+}
+
+.quake-card__mag {
+  font-family: var(--fuente-datos);
+  font-weight: 600;
+  font-size: 1.4rem;
+  min-width: 3ch;
+  text-align: center;
+}
+
+.quake-card__info h3 {
+  font-family: var(--fuente-titulo);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.quake-card__info p {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+/* Variantes de severidad: cambian el color de acuerdo a la magnitud */
+.quake-card--alto    { border-left-color: var(--rojo); }
+.quake-card--alto    .quake-card__mag { color: var(--rojo); }
+ 
+.quake-card--medio   { border-left-color: var(--naranja); }
+.quake-card--medio   .quake-card__mag { color: var(--naranja); }
+ 
+.quake-card--bajo    { border-left-color: var(--verde); }
+.quake-card--bajo    .quake-card__mag { color: var(--verde); }
+/* =======================================================
+   7. ESCALA DE MAGNITUD
+   Aquí usamos CSS Grid para las etiquetas, porque queremos
+   una cuadrícula pareja de 4 columnas.
+======================================================= */
+.scale__bar {
+  display: flex;
+  height: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.scale__bar span {
+  width: var(--w);        /* cada barra usa su propia variable --w */
+  background: var(--c);   /* y su propio color --c, definidas inline en el HTML */
+}
+
+.scale__labels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 5 columnas de igual ancho */
+  gap: 12px;
+}
+
+.scale__labels div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centra strong y span horizontalmente */
+  text-align: center;    /* por si el texto hace salto de línea */
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+.scale__labels strong {
+  font-family: var(--fuente-titulo);
+}
+
+.scale__labels span {
+  color: var(--texto-suave);
+}
+
+/* =======================================================
+   8. FOOTER
+======================================================= */
+.footer {
+  text-align: center;
+  padding: 32px;
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--linea);
+}
+
+/* =======================================================
+   9. RESPONSIVE
+   Media query: por debajo de 640px (celulares), apilamos
+   la navegación y reducimos el padding para que no se
+   vea apretado.
+======================================================= */
+@media (max-width: 640px) {
+  .topbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero {
+    padding: 48px 20px 64px;
+  }
+
+  .section {
+    padding: 40px 20px;
+  }
+
+  .scale__labels {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en celular en vez de 4 */
+  }
+}
+
+/* Respeta si el usuario prefiere menos animaciones */
+@media (prefers-reduced-motion: reduce) {
+  .hero__wave-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
