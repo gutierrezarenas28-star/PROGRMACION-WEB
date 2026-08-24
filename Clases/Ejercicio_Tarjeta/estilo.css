@@ -1,0 +1,44 @@
+body{
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+}
+
+.tarjeta{
+    background-color: aliceblue;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    display: flex;
+    flex-direction: column;   /* Alinea los elementos uno abajo del otro */
+    align-items: center;      /* Centra los elementos de forma horizontal */
+    text-align: center; 
+}
+.tarjeta__foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: blue;
+    margin-bottom: 10px;
+}
+.tarjeta__boton{
+    background-color: rgb(45, 45, 242);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.tarjeta__boton:hover{
+    background-color: aqua;
+    color: black;
+}
