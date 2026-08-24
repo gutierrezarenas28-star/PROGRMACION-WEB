@@ -8,11 +8,11 @@
 </head>
 <body>
     
-    <form>
-        <fieldset>
-            <legend>Datos Personales</legend>
-            <div>
-                <label for="nombre">Nombre:</label>
+    <form class="formulario">
+        <fieldset class="formulario__grupo">
+            <legend class="formulario__titulo">Datos Personales</legend>
+            <div class="campo">
+                <label class="campo__label" for="nombre">Nombre:</label>
                 <input 
                 type="text"
                 id="nombre"
@@ -21,8 +21,8 @@
                 required minlength="3" maxlength="60"
                 />
             </div>
-            <div>
-                <label for="Num Documento">Número de Documento:</label>
+            <div class="campo">
+                <label class="campo__label" for="Num Documento">Número de Documento:</label>
                 <input 
                 type="text"
                 id="Num Documento"
@@ -31,8 +31,8 @@
                 required pattern="[0-9]{6,10}"
                 />
             </div>
-            <div>
-                <label for="correo">Correo Electrónico:</label>
+            <div class="campo">
+                <label class="campo__label" for="correo">Correo Electrónico:</label>
                 <input 
                 type="email"
                 id="correo"
@@ -41,8 +41,8 @@
                 required
                 />
             </div>
-            <div>
-                <label for="telefono">Teléfono:</label>
+            <div class="campo">
+                <label class="campo__label" for="telefono">Teléfono:</label>
                 <input 
                 type="tel"
                 id="telefono"
@@ -54,10 +54,10 @@
         </fieldset>
         <br>
 
-        <fieldset>
-            <legend>Ubicación de la afectación</legend>
-            <div>
-                <label for="departamento">Departamento:</label>
+        <fieldset class="formulario__grupo">
+            <legend class="formulario__titulo">Ubicación de la afectación</legend>
+            <div class="campo">
+                <label class="campo__label" for="departamento">Departamento:</label>
                 <select id="departamento" name="departamento" required>
                     <option value="" disabled selected>Seleccione un departamento</option>
                     <optgroup label="Región Caribe">
@@ -86,8 +86,8 @@
                 </select>
             </div>
 
-            <div>
-                <label for="municipio">Municipio:</label>
+            <div class="campo">
+                <label class="campo__label" for="municipio">Municipio:</label>
                 <input 
                 type="text"
                 id="municipio"
@@ -103,8 +103,8 @@
                 </datalist>
             </div>
 
-            <div>
-                <label for="direccion">Dirección:</label>
+            <div class="campo">
+                <label class="campo__label" for="direccion">Dirección:</label>
                 <input 
                 type="text"
                 id="direccion"
@@ -114,10 +114,10 @@
             </div>
         </fieldset>
         <br>
-        <fieldset>
-            <legend>Información del sismo y afectación</legend>
-            <div>
-                <label for="fecha-hora">Fecha y hora del sismo:</label>
+        <fieldset class="formulario__grupo">
+            <legend class="formulario__titulo">Información del sismo y afectación</legend>
+            <div class="campo">
+                <label class="campo__label" for="fecha-hora">Fecha y hora del sismo:</label>
                 <input 
                 type="datetime-local"
                 id="fecha-hora"
@@ -126,8 +126,8 @@
                 />
             </div>
 
-            <div>
-                <label for="intensidad">Intensidad del sismo:</label>
+            <div class="campo">
+                <label class="campo__label" for="intensidad">Intensidad del sismo:</label>
                 <input 
                 type="range"
                 id="intensidad"
@@ -139,8 +139,8 @@
                 />
             </div>
 
-            <div>
-                <label>Tipo de afectación:</label>
+            <div class="campo">
+                <label class="campo__label">Tipo de afectación:</label>
                 <div>
                     <input 
                     type="checkbox"
@@ -149,7 +149,7 @@
                     value="grietas">
                     <label for="grietas">Grietas</label>
                 </div>
-                <div>
+                <div class="opcion">
                     <input
                     type="checkbox"
                     id="caida de muros"
@@ -157,7 +157,7 @@
                     value="caida de muros">
                     <label for="caida de muros">Caida de muros</label>
                 </div>
-                <div>
+                <div class="opcion">
                     <input
                     type="checkbox"
                     id="servicios publicos" 
@@ -165,7 +165,7 @@
                     value="servicios publicos">
                     <label for="servicios publicos">Servicios públicos</label>
                 </div>
-                <div>
+                <div class="opcion">
                     <input
                     type="checkbox"
                     id="vias"
@@ -173,7 +173,7 @@
                     value="vias">
                     <label for="vias">Vías</label>
                 </div>
-                <div>
+                <div class="opcion">
                     <input
                     type="checkbox"
                     id="ninguna"
@@ -183,8 +183,8 @@
                 </div>
             </div>
 
-            <div>
-                <label for="personas">Personas afectadas:</label>
+            <div class="campo">
+                <label class="campo__label" for="personas">Personas afectadas:</label>
                 <input
                     type="number"
                     id="personas"
@@ -194,9 +194,9 @@
                 />
             </div>
 
-            <div>
-                <label>Nivel de atención requerido:</label>
-                <div>
+            <div class="campo">
+                <label class="campo__label">Nivel de atención requerido:</label>
+                <div class="opcion">
                     <input
                      type="radio"
                      id="bajo"
@@ -204,7 +204,7 @@
                      value="bajo">
                     <label for="bajo">Bajo</label>
                 </div>
-                <div>
+                <div class="opcion">
                     <input
                      type="radio"
                      id="medio"
@@ -212,7 +212,7 @@
                      value="medio">
                     <label for="medio">Medio</label>
                 </div>
-                <div>
+                <div class="opcion">
                     <input
                      type="radio"
                      id="alto"
@@ -222,8 +222,8 @@
                 </div>
             </div>
 
-            <div>
-                <label for="descripcion">Descripción del daño:</label>
+            <div class="campo">
+                <label class="campo__label" for="descripcion">Descripción del daño:</label>
                 <textarea
                     id="descripcion"
                     name="descripcion"
@@ -235,10 +235,10 @@
             </div>
         </fieldset>
         <br>
-        <fieldset>
-            <legend>Evidencia y autorización</legend>
-            <div>
-                <label for="evidencia">Evidencia fotográfica:</label>
+        <fieldset class="formulario__grupo">
+            <legend class="formulario__titulo">Evidencia y autorización</legend>
+            <div class="campo">
+                <label class="campo__label" for="evidencia">Evidencia fotográfica:</label>
                 <input 
                 type="file"
                 id="evidencia"
@@ -246,7 +246,7 @@
                 accept="image/*"    />
             </div>
 
-            <div>
+            <div class="campo opcion">
                 <input 
                 type="checkbox"
                 id="autorizacion"
@@ -255,13 +255,16 @@
                 <label for="autorizacion">Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012.</label>
             </div>
 
-            <div>
-                <label for="contacto">Medio de contacto preferido:</label>
+            <div class="campo">
+                <label class="campo__label" for="contacto">Medio de contacto preferido:</label>
                 <select id="contacto" name="contacto" >
                     <option value="correo">Correo electrónico</option>
                     <option value="telefono">Teléfono</option>
                 </select>
             </div>
         </fieldset>
+        <div class="formulario__acciones">
+            <button type="submit" class="boton-enviar">Enviar Formulario</button>
+        </div>
     </form> 
 </html>

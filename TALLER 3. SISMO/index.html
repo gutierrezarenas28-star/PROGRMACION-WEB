@@ -1,32 +1,34 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="es">
 <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SISMO-REPORTA Colombia</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    <header>
-        <h1>SISMO-REPORTA Colombia</h1>
-        <p>
-            informacion y reporte ciudadano sobre el evento sismico.
-        </p>
+    <header class="encabezado">
+        <div class="marca">
+            <span class="punto" aria-hidden="true"></span>
+            SISMOGRAFICO
+        </div>
+
+        <nav class="navegacion">
+            <a href="index.html">Inicio</a>
+            <a href="index.html#recientes">Sismos recientes</a>
+            <a href="formulario.html">Reportar afectación</a>
+        </nav>
     </header>
 
-    <nav>
-        <a href="index.html">Inicio</a>
-        <a href="formulario.html">Reportar afectación</a>
-    </nav>
     <main>
         
-        <section>
-            <h2>Informacion del Sismo</h2>
-            <article>
+        <section class="sismo">
+            <article class="sismo__info">
                 <h2>Sismo registrado en Colombia</h2>
                 <p>
                     El evento sísmico se registró el
-                     <time datetime="2026-08-15T10:32">
-                    15 de agosto de 2026 a las 10:32 a. m.
+                    <time datetime="2026-08-15T10:32">
+                        15 de agosto de 2026 a las 10:32 a. m.
                     </time>.
                     El movimiento fue percibido en diferentes sectores de la región,
                     generando preocupación entre los habitantes y provocando que algunas
@@ -45,14 +47,12 @@
             </article>
 
             <figure>
-            <img src="sismo.jpg" alt="Imagen del sismo" width="600">
-            <figcaption>Imagen representativa del sismo registrado en Colombia.</figcaption>
+                <img src="sismo.jpg" alt="Imagen del sismo">
+                <figcaption>Imagen representativa del sismo registrado en Colombia.</figcaption>
             </figure>
-
-    
         </section>
 
-        <section>
+        <section class="recomendaciones">
             <h2>Recomendaciones de seguridad</h2>
             <ol>
                 <li>Evitar el uso de ascensores durante y después del sismo.</li>
@@ -63,22 +63,22 @@
             </ol>
         </section>
 
-        <section>
-            <h2>Lineas de atención</h2>
+        <section class="lineas-atencion">
+            <h2>Líneas de atención</h2>
             <dl>
                 <dt>Línea de emergencia:</dt>
                 <dd>018000 11 22 33</dd>
                 <dt>Centro de información:</dt>
                 <dd>018000 11 44 55</dd>
-                <dt>Reporte de afectaciones</dt>
+                <dt>Reporte de afectaciones:</dt>
                 <dd>01 8000 654321 - Recepción de reportes relacionados con daños.</dd>
             </dl>
         </section>
 
-        <section>
-            <h2>Replicas registradas</h2>
+        <section id="recientes" class="replicas">
+            <h2>Réplicas registradas</h2>
 
-            <table border="1">
+            <table>
                 <caption>Tabla de réplicas registradas después del sismo</caption>
                 <thead>
                     <tr>
@@ -114,28 +114,27 @@
                         <td colspan="4">Fuente: Servicio Geológico Colombiano</td>
                     </tr>
                 </tfoot>
-
             </table>
-
         </section>
-            
-        <aside>
-            <h2>Fuente de Información </h2>
+
+        <aside class="fuente-info">
+            <h2>Fuente de Información</h2>
             <p>Información proporcionada por el Servicio Geológico Colombiano.
                 <a href="https://www.sgc.gov.co/" target="_blank">Servicio Geológico Colombiano</a>
             </p>
         </aside>
 
-        <section>
+        <section class="video-informativo">
             <h2>Video informativo</h2> 
-            <video controls width="600">
+            <video controls>
                 <source src="./video_sismoo.mp4" type="video/mp4">
                 Tu navegador no soporta la reproducción de videos.
             </video>
         </section>
-        
+
     </main>
-    <footer>
+
+    <footer class="pie-pagina">
         <p>Trabajo académico - datos ficticios</p>
     </footer>
 </body>
