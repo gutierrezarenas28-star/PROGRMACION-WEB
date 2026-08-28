@@ -1,0 +1,20 @@
+.btn {
+    padding: 10px 18px;
+    border:  20px ;
+    border-radius: 6px;
+    background: #68d813;
+    color: #ffff;
+    cursor: default;
+}
+.btn-peligro  {
+    background: #c0392b;
+    cursor: pointer;
+}
+
+#contacto {
+    background: #e31717;
+    padding: 40px 0;
+    margin: 2cm 0;
+    border: 20px;
+    text-align: center;
+}
