@@ -18,3 +18,37 @@
     border: 20px;
     text-align: center;
 }
+
+/* Estado normal del enlace */
+a:link, a:visited {
+    color: #70A448;
+    text-decoration: none;
+    display: inline-block; /* Permite que animaciones de movimiento funcionen mejor */
+    
+    /* 1. AQUÍ ACTIVAS LA ANIMACIÓN SUAVE */
+    transition: all 0.3s ease; 
+}
+
+a:visited {
+    color: #6B4FA1;
+}
+
+/* Estado cuando pasas el mouse por encima */
+a:hover {
+    color: #C0392B;           /* Cambia a rojo suavemente */
+    text-decoration: underline; 
+    
+    /* 2. EFECTO EXTRA: Se hace un poquito más grande y sube 2 píxeles */
+    transform: scale(1.05) translateY(-2px); 
+}
+
+a:active {
+    color: #C0392B;
+}
+
+
+input:focus {outline:2pxsolid#70A448;} /*conelcursordentro*/ 
+input:disabled{background:#f09187;cursor: not-allowed;}
+input:checked {accent-color:#497E4A;} 
+input:required{border-left:3pxsolid#C0392B;} 
+input:invalid { border-color:#C0392B;}
