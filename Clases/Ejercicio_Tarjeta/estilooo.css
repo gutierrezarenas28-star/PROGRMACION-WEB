@@ -1,6 +1,6 @@
 .btn {
     padding: 10px 18px;
-    border:  20px ;
+    border:  20px;
     border-radius: 6px;
     background: #68d813;
     color: #ffff;
@@ -12,63 +12,7 @@
 }
 
 #contacto {
-    background: #e31717;
+    background: #F2F7EC;
     padding: 40px 0;
-    margin: 2cm 0;
-    border: 20px;
-    text-align: center;
 }
 
-/* Estado normal del enlace */
-a:link, a:visited {
-    color: #70A448;
-    text-decoration: none;
-    display: inline-block; /* Permite que animaciones de movimiento funcionen mejor */
-    
-    /* 1. AQUÍ ACTIVAS LA ANIMACIÓN SUAVE */
-    transition: all 0.3s ease; 
-}
-
-a:visited {
-    color: #6B4FA1;
-}
-
-/* Estado cuando pasas el mouse por encima */
-a:hover {
-    color: #C0392B;           /* Cambia a rojo suavemente */
-    text-decoration: underline; 
-    
-    /* 2. EFECTO EXTRA: Se hace un poquito más grande y sube 2 píxeles */
-    transform: scale(1.05) translateY(-2px); 
-}
-
-a:active {
-    color: #C0392B;
-}
-
-
-input:focus {outline:2pxsolid#70A448;} /*conelcursordentro*/ 
-input:disabled{background:#f09187;cursor: not-allowed;}
-input:checked {accent-color:#497E4A;} 
-input:required{border-left:3pxsolid#C0392B;} 
-input:invalid { border-color:#C0392B;}
-
-
-li:first-child {font-weight:bold;} 
-li:last-child {border-bottom:none;} 
-li:nth-child(3) {color:red;} /*eltercero*/ 
-li:nth-child(even) {background:#F5F5F5;}/*pares:2,4,6...*/ 
-li:nth-child(odd) {background:#FFF;} /*impares:1,3,5...*/ 
-li:nth-child(3n) {color:blue;} /*3,6,9,12...*/ 
-li:nth-child(3n+1) {color:green;} /*1,4,7,10...*/
-
-p:only-child {text-align:center;} 
-tr:nth-last-child(2){background:#FFE;} /*penúltimafila*/ section:empty {display:none;} /*sincontenido*/
-
-tr:first-child {font-weight:bold;} 
-tr:last-child {border-bottom:none;} 
-tr:nth-child(3) {color:red;} /*eltercero*/ 
-tr:nth-child(even) {background:#6367df;}/*pares:2,4,6...*/ 
-td:nth-child(odd) {background:#eb6c6c;} /*impares:1,3,5...*/ 
-td:nth-child(3n) {color:rgb(234, 234, 239);} /*3,6,9,12...*/ 
-tr:nth-child(3n+1) {color:green;} /*1,4,7,10...*/
