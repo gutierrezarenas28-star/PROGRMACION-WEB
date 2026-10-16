@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Mi Pagina Web</h1>
+    <p>Bienevenido a mi pagina web</p>
+
+    <h1>Crear Producto</h1>
+
+    <form action="" method="post">
+    <input type="text" id ="nombre" placeholder="ingrese el nombre">
+    <input type="text" id="precio" placeholder="ingrese el precio">
+    <button id="agregar">Agregar Producto</button>
+    </form>
+
+     <h1>Editar Producto</h1>
+
+    <form action="" method="post">
+    <input type="text" id ="nombre" placeholder="ingrese el nombre">
+    <input type="text" id="precio" placeholder="ingrese el precio">
+    <button id="agregar">Agregar Producto</button>
+    </form>
+
+    <br>
+    <h2>Lista de Productos</h2>
+    <table border="1" id="tabla-productos">
+        <thead>
+            <tr>
+                <th>Productos</th>
+                <th>Precio</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Producto 1</td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>Producto 2</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>Producto 3</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>Producto 4</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>producto 5</td>
+                <td>20</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <script>
+        const nombreImput = document.getElementById('nombre');
+        const precioInput = document.getElementById('precio');
+        const agregarBtn = document.getElementById('agregar');
+        const tablaProducto = document.getElementById('tabla-productos');
+
+        // Funcion que agrega los botones Editar y Eliminar a una fila
+        function agregarBotones(fila) {
+            const celdaEditar = document.createElement("td");
+            const btnEditar = document.createElement("button");
+            btnEditar.textContent = "Editar";
+
+            btnEditar.addEventListener("click", function () {
+                const nuevoNombre = prompt("Nuevo nombre:", fila.cells[0].textContent);
+                const nuevoPrecio = prompt("Nuevo precio:", fila.cells[1].textContent);
+
+                if (nuevoNombre !== null && nuevoNombre.trim() !== "") {
+                    fila.cells[0].textContent = nuevoNombre.trim();
+                }
+                if (nuevoPrecio !== null && nuevoPrecio.trim() !== "") {
+                    fila.cells[1].textContent = nuevoPrecio.trim();
+                }
+            });
+
+            const celdaEliminar = document.createElement("td");
+            const btnEliminar = document.createElement("button");
+            btnEliminar.textContent = "Eliminar";
+
+            btnEliminar.addEventListener("click", function () {
+                fila.remove();
+            });
+
+            celdaEditar.appendChild(btnEditar);
+            celdaEliminar.appendChild(btnEliminar);
+
+            fila.appendChild(celdaEditar);
+            fila.appendChild(celdaEliminar);
+        }
+
+        // Agregar los botones a las filas que ya estan en la tabla
+        tablaProducto.querySelectorAll("tbody tr").forEach(function (fila) {
+            agregarBotones(fila);
+        });
+
+        agregarBtn.addEventListener("click", function
+         (event) {
+            event.preventDefault();
+
+            const nombre = nombreImput.value.trim();
+            const precio = precioInput.value.trim();
+
+            //alert(`Producto agregado: ${nombre} - Precio: ${precio}`);
+            //return;
+
+            if (nombre === "" || precio === "") {
+                alert("Por favor, complete todos los campos.");
+                return;
+            }
+
+            const nuevaFila = document.createElement("tr");
+            const celdaNombre = document.createElement("td");
+            const celdaPrecio = document.createElement("td");
+
+            celdaNombre.textContent = nombre;
+            celdaPrecio.textContent = precio;
+
+            nuevaFila.appendChild(celdaNombre);
+            nuevaFila.appendChild(celdaPrecio);
+
+            agregarBotones(nuevaFila);
+
+            tablaProducto.querySelector("tbody").appendChild(nuevaFila);
+        })
+    </script>
+
+</body>
+</html>
