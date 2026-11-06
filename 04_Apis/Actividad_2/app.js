@@ -56,6 +56,7 @@ async function probarPokeApi() {
     await obtenerPokemon("pokemonfalso");
   } catch (error) {
     console.error("\nError esperado con pokemonfalso ->", error.message);
+    
   }
 }
 
