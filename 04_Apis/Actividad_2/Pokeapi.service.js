@@ -13,10 +13,10 @@ export function obtenerPokemon(nombre) {
   return pedir(`/pokemon/${nombre}`);
 }
 
-export function listarPokemon(limite) {
+export function listarPokemon(limite = 10) {
   return pedir(`/pokemon?limit=${limite}`);
 }
 
 export function obtenerTipo(tipo) {
   return pedir(`/type/${tipo}`);
-}
+} 
