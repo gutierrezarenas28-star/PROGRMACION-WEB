@@ -1,0 +1,234 @@
+:root {
+  --fondo: #f3f4f6;
+  --tarjeta: #ffffff;
+  --texto: #111827;
+  --suave: #6b7280;
+  --borde: #e5e7eb;
+  --principal: #0f766e;
+  --principal-oscuro: #115e59;
+  --peligro: #b91c1c;
+  --error: #b91c1c;
+  --ok: #15803d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.cabecera h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.subtitulo {
+  margin: 0.15rem 0 0;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+}
+
+.sesion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.contenedor {
+  width: min(780px, 92%);
+  margin: 2rem auto;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.tarjeta {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.tarjeta h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+.ayuda {
+  margin: 0 0 1rem;
+  color: var(--suave);
+  font-size: 0.9rem;
+}
+
+.formulario {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.formulario label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.formulario input {
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 400;
+  color: var(--texto);
+  background: #ffffff;
+}
+
+.formulario input:focus {
+  outline: 2px solid rgba(15, 118, 110, 0.25);
+  border-color: var(--principal);
+}
+
+.boton {
+  padding: 0.7rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: var(--principal);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background: var(--principal-oscuro);
+}
+
+.boton-secundario {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.boton-secundario:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.boton.peligro {
+  background: var(--peligro);
+  border-color: var(--peligro);
+}
+
+.boton.peligro:hover {
+  background: #991b1b;
+}
+
+.titulo-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.titulo-fila .boton-secundario {
+  color: var(--principal);
+  border-color: var(--principal);
+}
+
+.titulo-fila .boton-secundario:hover {
+  background: rgba(15, 118, 110, 0.08);
+}
+
+.lista-productos {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.producto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+}
+
+.producto-info {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.producto-info span {
+  color: var(--suave);
+  font-size: 0.9rem;
+}
+
+.vacio {
+  padding: 1rem;
+  text-align: center;
+  color: var(--suave);
+}
+
+.mensaje {
+  min-height: 1.2rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+.mensaje.error {
+  color: var(--error);
+}
+
+.mensaje.ok {
+  color: var(--ok);
+}
+
+.oculto {
+  display: none !important;
+}
+
+.pie {
+  margin-top: auto;
+  padding: 1rem;
+  text-align: center;
+  color: var(--suave);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 520px) {
+  .cabecera {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .titulo-fila {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .producto {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

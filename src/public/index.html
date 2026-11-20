@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tienda | Actividad 6</title>
+    <link rel="stylesheet" href="./estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div>
+        <h1>Tienda</h1>
+        <p class="subtitulo">API + front-end</p>
+      </div>
+      <div class="sesion">
+        <span id="sesion-info">Sin sesión</span>
+        <button id="btn-salir" class="boton boton-secundario oculto" type="button">
+          Salir
+        </button>
+      </div>
+    </header>
+
+    <main class="contenedor">
+      <section id="panel-login" class="tarjeta">
+        <h2>Iniciar sesión</h2>
+        <p class="ayuda">
+          Usa el email y la contraseña que registraste en la API.
+        </p>
+        <form id="form-login" class="formulario">
+          <label>
+            Email
+            <input id="login-email" type="email" autocomplete="username" required />
+          </label>
+          <label>
+            Contraseña
+            <input
+              id="login-password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+          </label>
+          <button class="boton" type="submit">Entrar</button>
+        </form>
+        <p id="login-mensaje" class="mensaje" role="status"></p>
+      </section>
+
+      <section class="tarjeta">
+        <div class="titulo-fila">
+          <h2>Productos</h2>
+          <button id="btn-recargar" class="boton boton-secundario" type="button">
+            Recargar
+          </button>
+        </div>
+
+        <ul id="lista-productos" class="lista-productos">
+          <li class="vacio">Cargando productos...</li>
+        </ul>
+      </section>
+
+      <section id="panel-crear" class="tarjeta oculto">
+        <h2>Agregar producto</h2>
+        <p class="ayuda">
+          Necesitas una sesión iniciada. Solo el admin puede borrar.
+        </p>
+        <form id="form-producto" class="formulario">
+          <label>
+            Nombre
+            <input id="producto-nombre" type="text" required />
+          </label>
+          <label>
+            Precio
+            <input id="producto-precio" type="number" min="0" step="0.01" required />
+          </label>
+          <label>
+            Stock
+            <input id="producto-stock" type="number" min="0" step="1" value="0" required />
+          </label>
+          <button class="boton" type="submit">Guardar producto</button>
+        </form>
+        <p id="producto-mensaje" class="mensaje" role="status"></p>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <p>Actividad 6 · API de productos con JWT y front-end</p>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

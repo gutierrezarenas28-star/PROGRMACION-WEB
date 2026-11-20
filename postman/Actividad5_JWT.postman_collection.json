@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "a5c1e7f2-8b4d-4c3e-9f61-2d7a0b5e4c18",
     "name": "Actividad 5 - API con JWT",
-    "description": "Colección para probar la API de productos con autenticación JWT.\n\nFlujo recomendado:\n1. Ejecutar **Auth > Register** (genera un email aleatorio y lo guarda en la variable `email`).\n2. Ejecutar **Auth > Login** (guarda el token en la variable `token`).\n3. Probar las rutas de **Productos**. Las rutas POST/PUT/PATCH/DELETE usan `Bearer {{token}}`.\n\nTambién puedes correr toda la colección con el Collection Runner.",
+    "description": "Colección para probar la API de productos con autenticación JWT.\n\nFlujo recomendado:\n1. Ejecutar **Auth > Register** (genera un email aleatorio y lo guarda en la variable `email`).\n2. Ejecutar **Auth > Login** (guarda el token en la variable `token`).\n3. Probar las rutas de **Productos**. Las rutas POST/PUT/PATCH/DELETE usan `Bearer {{token}}`.\n4. En **Pruebas de seguridad** se comprueba que un usuario con rol `usuario` recibe 403 al borrar, mientras que el admin recibe 204.\n\nTambién puedes correr toda la colección con el Collection Runner.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -452,6 +452,245 @@
       "name": "Pruebas de seguridad",
       "item": [
         {
+          "name": "Register usuario normal (rol usuario)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Email nuevo en cada ejecución para evitar el 409",
+                  "pm.collectionVariables.set('emailUsuario', pm.variables.replaceIn('{{$randomEmail}}'));"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('201 Usuario normal creado', () => {",
+                  "  pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailUsuario}}\",\n  \"password\": \"{{passwordUsuario}}\",\n  \"rol\": \"usuario\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registro",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registro"
+              ]
+            },
+            "description": "Crea un usuario con rol `usuario` (no admin) para probar el 403. Usa /registro, el alias que pide la actividad."
+          },
+          "response": []
+        },
+        {
+          "name": "Login usuario normal (guarda tokenUsuario)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 Login usuario normal', () => {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Devuelve token de usuario', () => {",
+                  "  pm.expect(body.token).to.be.a('string').and.not.empty;",
+                  "});",
+                  "",
+                  "// Guarda el token del usuario NO admin en otra variable",
+                  "pm.collectionVariables.set('tokenUsuario', body.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailUsuario}}\",\n  \"password\": \"{{passwordUsuario}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST crear producto para prueba de borrado (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('201 Producto de prueba creado', () => {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set('productoIdPrueba', pm.response.json().id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Producto para probar roles\",\n  \"precio\": 1000,\n  \"stock\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/productos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "productos"
+              ]
+            },
+            "description": "Crea un producto nuevo con el token admin para usarlo en las pruebas de borrado."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE con usuario (debe dar 403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('403 Solo admin puede borrar', () => {",
+                  "  pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenUsuario}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/productos/{{productoIdPrueba}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "productos",
+                "{{productoIdPrueba}}"
+              ]
+            },
+            "description": "Token válido, pero rol usuario. El producto NO se borra."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE con admin (debe dar 204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('204 Admin borra el producto', () => {",
+                  "  pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/productos/{{productoIdPrueba}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "productos",
+                "{{productoIdPrueba}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "POST producto SIN token (debe dar 401)",
           "event": [
             {
@@ -554,6 +793,26 @@
     {
       "key": "productoId",
       "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "emailUsuario",
+      "value": "usuario@tienda.com",
+      "type": "string"
+    },
+    {
+      "key": "passwordUsuario",
+      "value": "123456",
+      "type": "string"
+    },
+    {
+      "key": "tokenUsuario",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productoIdPrueba",
+      "value": "",
       "type": "string"
     }
   ]
