@@ -1,5 +1,6 @@
 import express from "express";
 import { db } from "./db.js";
+import authRouter, { verificarToken } from "./auth.js";
 
 const app = express();
 app.set("json spaces", 2);
@@ -55,6 +56,10 @@ function asyncHandler(handler) {
   return (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
 }
 
+// ---------- Autenticación ----------
+
+app.use(authRouter);
+
 // ---------- GET /productos ----------
 
 app.get(
@@ -96,6 +101,7 @@ app.get(
 
 app.post(
   "/productos",
+  verificarToken,
   asyncHandler(async (req, res) => {
     const body = req.body ?? {};
     const errores = validarProducto(body);
@@ -121,6 +127,7 @@ app.post(
 
 app.put(
   "/productos/:id",
+  verificarToken,
   asyncHandler(async (req, res) => {
     const id = parsearId(req.params.id);
 
@@ -162,6 +169,7 @@ app.put(
 
 app.patch(
   "/productos/:id",
+  verificarToken,
   asyncHandler(async (req, res) => {
     const id = parsearId(req.params.id);
 
@@ -232,6 +240,7 @@ app.patch(
 
 app.delete(
   "/productos/:id",
+  verificarToken,
   asyncHandler(async (req, res) => {
     const id = parsearId(req.params.id);
 
