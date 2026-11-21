@@ -11,9 +11,10 @@ const app = express();
 app.set("json spaces", 2);
 app.use(express.json());
 
-// El front-end vive en src/public. Express solo publica esa carpeta:
-// .env y el código del servidor quedan fuera del alcance del navegador.
-app.use(express.static(path.join(__dirname, "public")));
+// El front-end vive en public/ (al mismo nivel que src/).
+// Express solo publica esa carpeta: .env y el código del servidor
+// quedan fuera del alcance del navegador.
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 // ---------- Rutas de la API ----------
 
