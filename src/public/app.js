@@ -2,6 +2,7 @@ import {
   login,
   getProductos,
   crearProducto,
+  actualizarProducto,
   eliminarProducto,
 } from "./services/tienda.service.js";
 
@@ -10,14 +11,27 @@ const btnSalir = document.querySelector("#btn-salir");
 const panelLogin = document.querySelector("#panel-login");
 const formLogin = document.querySelector("#form-login");
 const loginMensaje = document.querySelector("#login-mensaje");
-const listaProductos = document.querySelector("#lista-productos");
+
+const cuerpoProductos = document.querySelector("#cuerpo-productos");
 const btnRecargar = document.querySelector("#btn-recargar");
-const panelCrear = document.querySelector("#panel-crear");
+const btnAgregar = document.querySelector("#btn-agregar");
+const tablaMensaje = document.querySelector("#tabla-mensaje");
+
+const panelFormulario = document.querySelector("#panel-formulario");
+const tituloFormulario = document.querySelector("#titulo-formulario");
 const formProducto = document.querySelector("#form-producto");
+const btnGuardar = document.querySelector("#btn-guardar");
+const btnCancelar = document.querySelector("#btn-cancelar");
 const productoMensaje = document.querySelector("#producto-mensaje");
+
+const campoNombre = document.querySelector("#producto-nombre");
+const campoPrecio = document.querySelector("#producto-precio");
+const campoStock = document.querySelector("#producto-stock");
 
 let token = localStorage.getItem("token") ?? "";
 let rol = localStorage.getItem("rol") ?? "";
+let productosActuales = [];
+let productoEnEdicion = null;
 
 function decodificarToken(valor) {
   try {
@@ -38,7 +52,7 @@ function limpiarSesion() {
 
 function actualizarVistaSesion() {
   const payload = token ? decodificarToken(token) : null;
-  const vencido = !payload || payload.exp * 1000 <= Date.now();
+  const vencido = !payload || !payload.exp || payload.exp * 1000 <= Date.now();
 
   if (token && vencido) {
     limpiarSesion();
@@ -47,11 +61,15 @@ function actualizarVistaSesion() {
     localStorage.setItem("rol", rol);
   }
 
-  const autenticado = Boolean(token);
-  panelLogin.classList.toggle("oculto", autenticado);
-  panelCrear.classList.toggle("oculto", !autenticado);
-  btnSalir.classList.toggle("oculto", !autenticado);
-  sesionInfo.textContent = autenticado ? `Sesión: ${rol}` : "Sin sesión";
+  const haySesion = Boolean(token);
+  panelLogin.classList.toggle("oculto", haySesion);
+  btnSalir.classList.toggle("oculto", !haySesion);
+  sesionInfo.textContent = haySesion ? `Sesión: ${rol}` : "Sin sesión";
+
+  if (!haySesion) {
+    panelFormulario.classList.add("oculto");
+    productoEnEdicion = null;
+  }
 }
 
 function mostrarMensaje(elemento, texto, tipo = "") {
@@ -59,61 +77,139 @@ function mostrarMensaje(elemento, texto, tipo = "") {
   elemento.className = `mensaje ${tipo}`.trim();
 }
 
-function crearElementoProducto(producto) {
-  const item = document.createElement("li");
-  item.className = "producto";
+function formatearPrecio(precio) {
+  return `$${Number(precio).toLocaleString("es-CO")}`;
+}
 
-  const info = document.createElement("div");
-  info.className = "producto-info";
+function crearCelda(texto, className = "") {
+  const celda = document.createElement("td");
+  if (className) {
+    celda.className = className;
+  }
+  celda.textContent = texto;
+  return celda;
+}
 
-  const nombre = document.createElement("strong");
-  nombre.textContent = producto.nombre;
+function crearAcciones(producto) {
+  const celda = document.createElement("td");
+  celda.className = "col-acciones";
 
-  const detalles = document.createElement("span");
-  const precio = Number(producto.precio).toLocaleString("es-CO");
-  detalles.textContent = `$${precio} · Stock: ${producto.stock}`;
-
-  info.append(nombre, detalles);
-  item.append(info);
-
-  if (rol === "admin") {
-    const boton = document.createElement("button");
-    boton.type = "button";
-    boton.className = "boton peligro";
-    boton.textContent = "Eliminar";
-    boton.dataset.id = producto.id;
-    item.append(boton);
+  if (!token) {
+    const aviso = document.createElement("span");
+    aviso.className = "texto-suave";
+    aviso.textContent = "Inicia sesión";
+    celda.append(aviso);
+    return celda;
   }
 
-  return item;
+  const acciones = document.createElement("div");
+  acciones.className = "acciones";
+
+  const btnEditar = document.createElement("button");
+  btnEditar.type = "button";
+  btnEditar.className = "boton boton-pequeno";
+  btnEditar.textContent = "Editar";
+  btnEditar.dataset.accion = "editar";
+  btnEditar.dataset.id = producto.id;
+  acciones.append(btnEditar);
+
+  if (rol === "admin") {
+    const btnEliminar = document.createElement("button");
+    btnEliminar.type = "button";
+    btnEliminar.className = "boton peligro boton-pequeno";
+    btnEliminar.textContent = "Eliminar";
+    btnEliminar.dataset.accion = "eliminar";
+    btnEliminar.dataset.id = producto.id;
+    acciones.append(btnEliminar);
+  }
+
+  celda.append(acciones);
+  return celda;
 }
 
 function renderizarProductos(productos) {
-  listaProductos.replaceChildren();
+  cuerpoProductos.replaceChildren();
 
-  if (!productos.length) {
-    const vacio = document.createElement("li");
-    vacio.className = "vacio";
-    vacio.textContent = "No hay productos todavía.";
-    listaProductos.append(vacio);
+  if (productos.length === 0) {
+    const fila = document.createElement("tr");
+    const celda = document.createElement("td");
+    celda.colSpan = 5;
+    celda.className = "vacio";
+    celda.textContent = "No hay productos todavía.";
+    fila.append(celda);
+    cuerpoProductos.append(fila);
     return;
   }
 
   for (const producto of productos) {
-    listaProductos.append(crearElementoProducto(producto));
+    const fila = document.createElement("tr");
+    fila.append(crearCelda(producto.id));
+    fila.append(crearCelda(producto.nombre));
+    fila.append(crearCelda(formatearPrecio(producto.precio), "numero"));
+    fila.append(crearCelda(producto.stock, "numero"));
+    fila.append(crearAcciones(producto));
+    cuerpoProductos.append(fila);
   }
 }
 
 async function cargarProductos() {
   try {
-    renderizarProductos(await getProductos());
+    productosActuales = await getProductos();
+    renderizarProductos(productosActuales);
   } catch (error) {
-    listaProductos.replaceChildren();
-    const item = document.createElement("li");
-    item.className = "vacio";
-    item.textContent = `No se pudieron cargar los productos: ${error.message}`;
-    listaProductos.append(item);
+    productosActuales = [];
+    cuerpoProductos.replaceChildren();
+    const fila = document.createElement("tr");
+    const celda = document.createElement("td");
+    celda.colSpan = 5;
+    celda.className = "vacio";
+    celda.textContent = `No se pudieron cargar los productos: ${error.message}`;
+    fila.append(celda);
+    cuerpoProductos.append(fila);
   }
+}
+
+function mostrarFormulario(producto = null) {
+  if (!token) {
+    mostrarMensaje(
+      tablaMensaje,
+      "Inicia sesión para agregar o editar productos.",
+      "error"
+    );
+    panelLogin.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  productoEnEdicion = producto;
+
+  if (producto) {
+    tituloFormulario.textContent = "Editar producto";
+    btnGuardar.textContent = "Guardar cambios";
+    campoNombre.value = producto.nombre;
+    campoPrecio.value = producto.precio;
+    campoStock.value = producto.stock;
+  } else {
+    tituloFormulario.textContent = "Agregar producto";
+    btnGuardar.textContent = "Guardar producto";
+    formProducto.reset();
+    campoStock.value = "0";
+  }
+
+  mostrarMensaje(productoMensaje, "");
+  mostrarMensaje(tablaMensaje, "");
+  panelFormulario.classList.remove("oculto");
+  panelFormulario.scrollIntoView({ behavior: "smooth", block: "start" });
+  campoNombre.focus();
+}
+
+function ocultarFormulario() {
+  productoEnEdicion = null;
+  formProducto.reset();
+  campoStock.value = "0";
+  tituloFormulario.textContent = "Agregar producto";
+  btnGuardar.textContent = "Guardar producto";
+  mostrarMensaje(productoMensaje, "");
+  panelFormulario.classList.add("oculto");
 }
 
 formLogin.addEventListener("submit", async (event) => {
@@ -133,6 +229,7 @@ formLogin.addEventListener("submit", async (event) => {
 
     formLogin.reset();
     mostrarMensaje(loginMensaje, "");
+    mostrarMensaje(tablaMensaje, "");
     actualizarVistaSesion();
     await cargarProductos();
   } catch (error) {
@@ -142,62 +239,129 @@ formLogin.addEventListener("submit", async (event) => {
 
 formProducto.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  if (!token) {
+    mostrarMensaje(tablaMensaje, "Inicia sesión para guardar productos.", "error");
+    return;
+  }
+
   mostrarMensaje(productoMensaje, "Guardando...");
 
-  const producto = {
-    nombre: document.querySelector("#producto-nombre").value.trim(),
-    precio: Number(document.querySelector("#producto-precio").value),
-    stock: Number(document.querySelector("#producto-stock").value),
+  const datos = {
+    nombre: campoNombre.value.trim(),
+    precio: Number(campoPrecio.value),
+    stock: Number(campoStock.value),
   };
 
   try {
-    await crearProducto(producto, token);
-    formProducto.reset();
-    document.querySelector("#producto-stock").value = "0";
-    mostrarMensaje(productoMensaje, "Producto creado correctamente.", "ok");
-    await cargarProductos();
-  } catch (error) {
-    mostrarMensaje(productoMensaje, error.message, "error");
+    const editando = Boolean(productoEnEdicion);
+    let mensaje;
 
+    if (editando) {
+      await actualizarProducto(productoEnEdicion.id, datos, token);
+      mensaje = "Producto actualizado correctamente.";
+    } else {
+      await crearProducto(datos, token);
+      mensaje = "Producto creado correctamente.";
+    }
+
+    await cargarProductos();
+    ocultarFormulario();
+    mostrarMensaje(tablaMensaje, mensaje, "ok");
+  } catch (error) {
     if (error.status === 401) {
       limpiarSesion();
       actualizarVistaSesion();
+      mostrarMensaje(
+        tablaMensaje,
+        "Tu sesión venció. Inicia sesión de nuevo.",
+        "error"
+      );
+      await cargarProductos();
+    } else {
+      mostrarMensaje(productoMensaje, error.message, "error");
     }
   }
 });
 
-listaProductos.addEventListener("click", async (event) => {
-  const boton = event.target.closest("button[data-id]");
+cuerpoProductos.addEventListener("click", async (event) => {
+  const boton = event.target.closest("button[data-accion]");
 
   if (!boton) {
     return;
   }
 
-  if (!window.confirm("¿Seguro que quieres eliminar este producto?")) {
+  const producto = productosActuales.find(
+    (item) => item.id === Number(boton.dataset.id)
+  );
+
+  if (!producto) {
+    return;
+  }
+
+  if (boton.dataset.accion === "editar") {
+    mostrarFormulario(producto);
+    return;
+  }
+
+  if (boton.dataset.accion !== "eliminar") {
+    return;
+  }
+
+  if (!token) {
+    mostrarMensaje(
+      tablaMensaje,
+      "Inicia sesión para eliminar productos.",
+      "error"
+    );
+    return;
+  }
+
+  if (!window.confirm(`¿Eliminar "${producto.nombre}"?`)) {
     return;
   }
 
   try {
-    await eliminarProducto(boton.dataset.id, token);
-    await cargarProductos();
-  } catch (error) {
-    window.alert(error.message);
+    await eliminarProducto(producto.id, token);
 
+    if (productoEnEdicion?.id === producto.id) {
+      ocultarFormulario();
+    }
+
+    await cargarProductos();
+    mostrarMensaje(tablaMensaje, "Producto eliminado correctamente.", "ok");
+  } catch (error) {
     if (error.status === 401) {
       limpiarSesion();
       actualizarVistaSesion();
+      mostrarMensaje(
+        tablaMensaje,
+        "Tu sesión venció. Inicia sesión de nuevo.",
+        "error"
+      );
+      await cargarProductos();
+    } else {
+      mostrarMensaje(tablaMensaje, error.message, "error");
     }
   }
 });
 
-btnSalir.addEventListener("click", () => {
+btnAgregar.addEventListener("click", () => mostrarFormulario(null));
+btnCancelar.addEventListener("click", ocultarFormulario);
+
+btnSalir.addEventListener("click", async () => {
   limpiarSesion();
   actualizarVistaSesion();
+  ocultarFormulario();
   mostrarMensaje(loginMensaje, "Sesión cerrada.");
-  cargarProductos();
+  mostrarMensaje(tablaMensaje, "");
+  await cargarProductos();
 });
 
-btnRecargar.addEventListener("click", cargarProductos);
+btnRecargar.addEventListener("click", () => {
+  mostrarMensaje(tablaMensaje, "");
+  cargarProductos();
+});
 
 actualizarVistaSesion();
 cargarProductos();

@@ -53,15 +53,37 @@
           </button>
         </div>
 
-        <ul id="lista-productos" class="lista-productos">
-          <li class="vacio">Cargando productos...</li>
-        </ul>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th class="numero">Precio</th>
+                <th class="numero">Stock</th>
+                <th class="col-acciones">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpo-productos">
+              <tr>
+                <td colspan="5" class="vacio">Cargando productos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="acciones-tabla">
+          <button id="btn-agregar" class="boton" type="button">
+            Agregar producto
+          </button>
+          <p id="tabla-mensaje" class="mensaje" role="status"></p>
+        </div>
       </section>
 
-      <section id="panel-crear" class="tarjeta oculto">
-        <h2>Agregar producto</h2>
+      <section id="panel-formulario" class="tarjeta oculto">
+        <h2 id="titulo-formulario">Agregar producto</h2>
         <p class="ayuda">
-          Necesitas una sesión iniciada. Solo el admin puede borrar.
+          Completa los datos. Para editar, usa el botón Editar de la tabla.
         </p>
         <form id="form-producto" class="formulario">
           <label>
@@ -76,7 +98,14 @@
             Stock
             <input id="producto-stock" type="number" min="0" step="1" value="0" required />
           </label>
-          <button class="boton" type="submit">Guardar producto</button>
+          <div class="acciones-formulario">
+            <button id="btn-guardar" class="boton" type="submit">
+              Guardar producto
+            </button>
+            <button id="btn-cancelar" class="boton boton-texto" type="button">
+              Cancelar
+            </button>
+          </div>
         </form>
         <p id="producto-mensaje" class="mensaje" role="status"></p>
       </section>

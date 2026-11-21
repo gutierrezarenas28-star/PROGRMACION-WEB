@@ -156,32 +156,96 @@ body {
   background: rgba(15, 118, 110, 0.08);
 }
 
-.lista-productos {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-  display: grid;
-  gap: 0.75rem;
-}
-
-.producto {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.85rem 1rem;
+.tabla-contenedor {
+  margin-top: 1rem;
+  overflow-x: auto;
   border: 1px solid var(--borde);
   border-radius: 12px;
 }
 
-.producto-info {
-  display: grid;
-  gap: 0.2rem;
+.tabla {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
 }
 
-.producto-info span {
+.tabla th,
+.tabla td {
+  padding: 0.75rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid var(--borde);
+  vertical-align: middle;
+}
+
+.tabla th {
+  background: #f9fafb;
   color: var(--suave);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla tbody tr:hover {
+  background: #f9fafb;
+}
+
+.tabla .numero {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tabla .col-acciones {
+  white-space: nowrap;
+}
+
+.acciones {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.boton-pequeno {
+  padding: 0.42rem 0.65rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+}
+
+.texto-suave {
+  color: var(--suave);
+  font-size: 0.85rem;
+}
+
+.acciones-tabla {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.acciones-tabla .mensaje {
+  margin: 0;
+}
+
+.acciones-formulario {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.boton-texto {
+  background: transparent;
+  color: var(--principal);
+  border-color: var(--borde);
+}
+
+.boton-texto:hover {
+  background: rgba(15, 118, 110, 0.08);
 }
 
 .vacio {
@@ -227,7 +291,7 @@ body {
     flex-direction: column;
   }
 
-  .producto {
+  .acciones-tabla {
     align-items: flex-start;
     flex-direction: column;
   }

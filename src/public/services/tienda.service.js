@@ -45,6 +45,14 @@ export function crearProducto(producto, token) {
   });
 }
 
+export function actualizarProducto(id, producto, token) {
+  return peticion(`${API_PRODUCTOS}/${id}`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(producto),
+  });
+}
+
 export function eliminarProducto(id, token) {
   return peticion(`${API_PRODUCTOS}/${id}`, {
     method: "DELETE",
